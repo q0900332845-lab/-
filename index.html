@@ -1,0 +1,1779 @@
+<!DOCTYPE html>
+<html lang="zh-TW" data-theme="day">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>天線寶寶 Teletubbies</title>
+    <link rel="icon" type="image/x-icon" href="images/123ICO.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --sky-top: #38bdf8;
+            --sky-bottom: #e0f2fe;
+            --sun-color: #fbbf24;
+            --sun-glow: rgba(251, 191, 36, 0.45);
+            --grass-light: #4ade80;
+            --grass-mid: #22c55e;
+            --grass-dark: #15803d;
+
+            --tinky: #8b5cf6;
+            --tinky-glow: rgba(139, 92, 246, 0.35);
+            --dipsy: #10b981;
+            --dipsy-glow: rgba(16, 185, 129, 0.35);
+            --laalaa: #f59e0b;
+            --laalaa-glow: rgba(245, 158, 11, 0.35);
+            --po: #ef4444;
+            --po-glow: rgba(239, 68, 68, 0.35);
+            --noonoo: #06b6d4;
+            --sunbaby: #eab308;
+
+            --bg-card: rgba(255, 255, 255, 0.88);
+            --bg-card-hover: rgba(255, 255, 255, 0.98);
+            --card-border: rgba(255, 255, 255, 0.7);
+            --card-shadow: 0 12px 32px -4px rgba(16, 40, 30, 0.08), 0 4px 12px rgba(0, 0, 0, 0.04);
+            --card-shadow-hover: 0 20px 40px -6px rgba(16, 40, 30, 0.16), 0 8px 18px rgba(0, 0, 0, 0.06);
+
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --nav-bg: rgba(255, 255, 255, 0.85);
+            --footer-bg: #14532d;
+            --footer-text: #bbf7d0;
+        }
+
+        [data-theme="night"] {
+            --sky-top: #090d16;
+            --sky-bottom: #1e293b;
+            --sun-color: #f1f5f9;
+            --sun-glow: rgba(241, 245, 249, 0.35);
+            --grass-light: #166534;
+            --grass-mid: #14532d;
+            --grass-dark: #052e16;
+
+            --bg-card: rgba(30, 41, 59, 0.88);
+            --bg-card-hover: rgba(30, 41, 59, 0.98);
+            --card-border: rgba(255, 255, 255, 0.12);
+            --card-shadow: 0 12px 32px -4px rgba(0, 0, 0, 0.4);
+            --card-shadow-hover: 0 20px 40px -6px rgba(0, 0, 0, 0.6);
+
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --nav-bg: rgba(15, 23, 42, 0.88);
+            --footer-bg: #03140c;
+            --footer-text: #86efac;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Fredoka', 'Noto Sans TC', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: linear-gradient(180deg, var(--sky-top) 0%, var(--sky-bottom) 45%, var(--grass-light) 65%, var(--grass-mid) 100%);
+            min-height: 100vh;
+            color: var(--text-main);
+            transition: background 0.6s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* 頂部導航列 */
+        .navbar {
+            position: fixed;
+            top: 16px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: calc(100% - 32px);
+            max-width: 1140px;
+            background: var(--nav-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            padding: 10px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+        }
+
+        .brand-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 700;
+            font-size: 1.25rem;
+            letter-spacing: 0.5px;
+        }
+
+        .brand-logo img {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            object-fit: cover;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .brand-logo:hover img {
+            transform: rotate(20deg) scale(1.15);
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-main);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 16px;
+            border-radius: 999px;
+            transition: all 0.25s ease;
+        }
+
+        .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.4);
+            color: var(--tinky);
+            transform: translateY(-2px);
+        }
+
+        [data-theme="night"] .nav-links a:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: #a78bfa;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-icon-pill {
+            background: rgba(255, 255, 255, 0.6);
+            border: 1px solid var(--card-border);
+            border-radius: 999px;
+            padding: 8px 14px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-main);
+            transition: all 0.25s ease;
+        }
+
+        [data-theme="night"] .btn-icon-pill {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .btn-icon-pill:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 太陽寶寶裝飾與天空背景特效 */
+        .sky-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 650px;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .sun-baby {
+            position: absolute;
+            top: 70px;
+            right: 8%;
+            width: 130px;
+            height: 130px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #fef08a 0%, var(--sun-color) 70%, #f59e0b 100%);
+            box-shadow: 0 0 60px 20px var(--sun-glow);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: sunFloat 6s ease-in-out infinite alternate, sunPulse 3s ease-in-out infinite;
+            cursor: pointer;
+            pointer-events: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .sun-baby:hover {
+            transform: scale(1.15) rotate(10deg);
+        }
+
+        .sun-face {
+            font-size: 2.8rem;
+            user-select: none;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.15));
+            animation: babyWiggle 2.5s ease-in-out infinite;
+        }
+
+        .sun-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #78350f;
+            background: rgba(255, 255, 255, 0.75);
+            padding: 2px 8px;
+            border-radius: 999px;
+            margin-top: 2px;
+        }
+
+        @keyframes sunFloat {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            100% {
+                transform: translateY(18px) rotate(8deg);
+            }
+        }
+
+        @keyframes sunPulse {
+
+            0%,
+            100% {
+                box-shadow: 0 0 50px 15px var(--sun-glow);
+            }
+
+            50% {
+                box-shadow: 0 0 85px 30px var(--sun-glow);
+            }
+        }
+
+        @keyframes babyWiggle {
+
+            0%,
+            100% {
+                transform: rotate(0deg);
+            }
+
+            25% {
+                transform: rotate(-5deg);
+            }
+
+            75% {
+                transform: rotate(5deg);
+            }
+        }
+
+        /* 飄浮白雲 */
+        .cloud {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.85);
+            border-radius: 999px;
+            filter: blur(1px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.04);
+            animation: cloudMove linear infinite;
+        }
+
+        [data-theme="night"] .cloud {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .cloud-1 {
+            width: 220px;
+            height: 60px;
+            top: 130px;
+            left: -240px;
+            animation-duration: 38s;
+        }
+
+        .cloud-2 {
+            width: 170px;
+            height: 48px;
+            top: 230px;
+            left: -190px;
+            animation-duration: 28s;
+            animation-delay: 10s;
+        }
+
+        .cloud-3 {
+            width: 260px;
+            height: 70px;
+            top: 80px;
+            left: -280px;
+            animation-duration: 45s;
+            animation-delay: 18s;
+        }
+
+        @keyframes cloudMove {
+            0% {
+                transform: translateX(0);
+            }
+
+            100% {
+                transform: translateX(calc(100vw + 350px));
+            }
+        }
+
+        /* Hero 視覺主視覺區 */
+        .hero-section {
+            position: relative;
+            padding-top: 150px;
+            padding-bottom: 70px;
+            text-align: center;
+            z-index: 2;
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        .pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(8px);
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #ea580c;
+            border: 1px solid var(--card-border);
+            box-shadow: 0 4px 14px rgba(234, 88, 12, 0.12);
+            margin-bottom: 20px;
+            animation: bounceSoft 2.5s infinite;
+        }
+
+        [data-theme="night"] .pill-badge {
+            background: rgba(30, 41, 59, 0.85);
+            color: #fdba74;
+        }
+
+        @keyframes bounceSoft {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-6px);
+            }
+        }
+
+        /* 標題保留原頁面 Teletubbies 元素 */
+        .main-title {
+            font-size: clamp(3.5rem, 8vw, 6.2rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -1px;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #e11d48 0%, #ea580c 25%, #eab308 50%, #10b981 75%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 10px 30px rgba(234, 88, 12, 0.15);
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .main-title:hover {
+            transform: scale(1.02);
+        }
+
+        .subtitle {
+            font-size: clamp(1.2rem, 3vw, 1.8rem);
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .subtitle .highlight {
+            background: linear-gradient(120deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 900;
+        }
+
+        /* 快速標籤列 */
+        .quick-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 36px;
+        }
+
+        .tag-chip {
+            padding: 8px 18px;
+            border-radius: 999px;
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            font-size: 0.95rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.03);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .tag-chip:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        /* 動作按鈕群 */
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 16px;
+        }
+
+        .btn-primary {
+            padding: 14px 32px;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #f97316 0%, #ea580c 100%);
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 24px -4px rgba(234, 88, 12, 0.45);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-4px) scale(1.04);
+            box-shadow: 0 16px 30px -4px rgba(234, 88, 12, 0.55);
+        }
+
+        .btn-secondary {
+            padding: 14px 28px;
+            border-radius: 999px;
+            background: var(--bg-card);
+            color: var(--text-main);
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            border: 1px solid var(--card-border);
+            cursor: pointer;
+            box-shadow: var(--card-shadow);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            background: var(--bg-card-hover);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        /* 容器通用規範 */
+        .container {
+            max-width: 1140px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .section-tag {
+            font-size: 0.9rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: #15803d;
+            background: rgba(34, 197, 94, 0.15);
+            padding: 6px 16px;
+            border-radius: 999px;
+            display: inline-block;
+            margin-bottom: 12px;
+        }
+
+        [data-theme="night"] .section-tag {
+            color: #4ade80;
+            background: rgba(74, 222, 128, 0.15);
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.8rem);
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 12px;
+        }
+
+        .section-desc {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* 核心檔案資訊卡片 (原檔案內容: 語言/國家/首播/角色) */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 20px;
+            margin-bottom: 70px;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 28px 24px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 6px;
+            height: 100%;
+            background: var(--accent-color, #f59e0b);
+            border-radius: 6px 0 0 6px;
+        }
+
+        .info-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .info-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            background: var(--icon-bg, rgba(245, 158, 11, 0.12));
+            color: var(--icon-color, #d97706);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.7rem;
+            margin-bottom: 18px;
+        }
+
+        .info-label {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 6px;
+        }
+
+        .info-sub {
+            font-size: 0.88rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* 角色全集展示卡片區 */
+        .character-section {
+            padding: 50px 0 80px;
+        }
+
+        .characters-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 26px;
+        }
+
+        .char-card {
+            background: var(--bg-card);
+            border: 2px solid var(--char-border, transparent);
+            border-radius: 28px;
+            padding: 30px 24px;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .char-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 24px 45px -8px var(--char-glow, rgba(0, 0, 0, 0.15));
+            border-color: var(--char-color);
+        }
+
+        .char-badge-header {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            font-size: 0.8rem;
+            font-weight: 800;
+            padding: 4px 12px;
+            border-radius: 999px;
+            background: var(--char-color);
+            color: #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .antenna-symbol {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: var(--char-bg-light);
+            border: 3px solid var(--char-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            margin-bottom: 18px;
+            box-shadow: 0 8px 20px var(--char-glow);
+            transition: transform 0.4s ease;
+        }
+
+        .char-card:hover .antenna-symbol {
+            transform: rotate(15deg) scale(1.1);
+        }
+
+        .char-name {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .char-en-name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--char-color);
+            margin-bottom: 16px;
+            letter-spacing: 0.5px;
+        }
+
+        .char-props {
+            width: 100%;
+            background: rgba(0, 0, 0, 0.03);
+            border-radius: 16px;
+            padding: 12px 16px;
+            margin-bottom: 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            font-size: 0.92rem;
+            text-align: left;
+        }
+
+        [data-theme="night"] .char-props {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .char-prop-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .char-prop-key {
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+
+        .char-prop-val {
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .char-desc {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 22px;
+            flex-grow: 1;
+        }
+
+        .char-btn {
+            width: 100%;
+            padding: 12px;
+            border-radius: 999px;
+            border: none;
+            background: var(--char-color);
+            color: #ffffff;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            box-shadow: 0 6px 16px var(--char-glow);
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .char-btn:hover {
+            filter: brightness(1.1);
+            transform: scale(1.03);
+        }
+
+        /* 精彩劇照圖輯區 (包含 images.jpg 與 657a0874...jpg) */
+        .gallery-section {
+            padding: 60px 0 80px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+            gap: 32px;
+            align-items: stretch;
+        }
+
+        .gallery-card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .gallery-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .gallery-img-wrap {
+            position: relative;
+            width: 100%;
+            height: 380px;
+            overflow: hidden;
+            background: #cbd5e1;
+            cursor: zoom-in;
+        }
+
+        .gallery-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .gallery-card:hover .gallery-img-wrap img {
+            transform: scale(1.08);
+        }
+
+        .gallery-badge {
+            position: absolute;
+            top: 18px;
+            left: 18px;
+            background: rgba(0, 0, 0, 0.65);
+            backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 0.85rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 999px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .gallery-info {
+            padding: 26px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .gallery-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: var(--text-main);
+            margin-bottom: 8px;
+        }
+
+        .gallery-caption {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+
+        .gallery-click-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #2563eb;
+            cursor: pointer;
+        }
+
+        [data-theme="night"] .gallery-click-hint {
+            color: #60a5fa;
+        }
+
+        /* 原頁面 HIHIHI 打招呼專區的精采昇華 */
+        .greetings-section {
+            padding: 60px 0 80px;
+        }
+
+        .greetings-box {
+            background: var(--bg-card);
+            border: 2px dashed rgba(234, 88, 12, 0.4);
+            border-radius: 32px;
+            padding: 40px 32px;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .greetings-bubble-stream {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin: 28px 0;
+            max-height: 200px;
+            overflow-y: auto;
+            padding: 12px;
+            background: rgba(0, 0, 0, 0.02);
+            border-radius: 20px;
+        }
+
+        .hi-chip {
+            padding: 6px 16px;
+            border-radius: 999px;
+            font-weight: 800;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            animation: pulseChip 2s infinite ease-in-out;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .hi-chip:hover {
+            transform: scale(1.15) rotate(4deg);
+        }
+
+        @keyframes pulseChip {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .raw-hi-original {
+            background: rgba(0, 0, 0, 0.04);
+            border-radius: 16px;
+            padding: 16px;
+            font-family: monospace;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-top: 20px;
+            display: none;
+            text-align: center;
+        }
+
+        /* 外部官方資源專區 (保留原連結: Wikipedia / Teletubbies.com) */
+        .links-section {
+            padding: 60px 0 90px;
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .link-card {
+            background: var(--bg-card);
+            border: 1px solid var(--card-border);
+            border-radius: 24px;
+            padding: 28px;
+            text-decoration: none;
+            color: var(--text-main);
+            box-shadow: var(--card-shadow);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .link-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: var(--card-shadow-hover);
+        }
+
+        .link-card-icon {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+        }
+
+        .link-card-body h3 {
+            font-size: 1.35rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .link-card-body p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.4;
+        }
+
+        /* 頁尾 Footer (帶草地波浪與山丘曲線) */
+        .hill-divider {
+            width: 100%;
+            height: auto;
+            display: block;
+            margin-bottom: -2px;
+        }
+
+        footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            padding: 50px 20px 40px;
+            text-align: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #ffffff;
+            margin-bottom: 12px;
+            letter-spacing: 1px;
+        }
+
+        .footer-quote {
+            font-size: 1.1rem;
+            color: #86efac;
+            margin-bottom: 24px;
+            font-weight: 600;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #facc15;
+        }
+
+        .footer-copy {
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.6);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 24px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* 圖片燈箱 Lightbox Modal */
+        .lightbox-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            cursor: pointer;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .lightbox-modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .lightbox-content {
+            max-width: 90%;
+            max-height: 85vh;
+            border-radius: 20px;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+            cursor: default;
+            animation: zoomIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes zoomIn {
+            from {
+                transform: scale(0.85);
+                opacity: 0;
+            }
+
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .lightbox-close {
+            position: absolute;
+            top: 24px;
+            right: 28px;
+            background: rgba(255, 255, 255, 0.2);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .lightbox-close:hover {
+            background: rgba(255, 255, 255, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* 浮動愛心與問候粒子特效 */
+        .floating-particle {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            font-size: 1.8rem;
+            font-weight: 800;
+            animation: floatUpAndFade 1.8s forwards cubic-bezier(0.12, 0.8, 0.32, 1);
+        }
+
+        @keyframes floatUpAndFade {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(0.6) rotate(0deg);
+            }
+
+            50% {
+                opacity: 0.9;
+                transform: translate(var(--tx, 0), -70px) scale(1.3) rotate(var(--rot, 15deg));
+            }
+
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx, 0), -160px) scale(1) rotate(var(--rot, 30deg));
+            }
+        }
+
+        /* 響應式調整 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 8px 16px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .sun-baby {
+                width: 100px;
+                height: 100px;
+                right: 4%;
+                top: 80px;
+            }
+
+            .sun-face {
+                font-size: 2rem;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gallery-img-wrap {
+                height: 280px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- 頂部浮動導航列 -->
+    <nav class="navbar">
+        <a href="#" class="brand-logo">
+            <img src="images/123ICO.ico" alt="天線寶寶小圖標">
+            <span>Teletubbies</span>
+        </a>
+        <ul class="nav-links">
+            <li><a href="#about">關於我們</a></li>
+            <li><a href="#characters">角色家族</a></li>
+            <li><a href="#gallery">劇照圖輯</a></li>
+            <li><a href="#greetings">說你好！</a></li>
+            <li><a href="#links">官方連結</a></li>
+        </ul>
+        <div class="nav-actions">
+            <button class="btn-icon-pill" id="soundToggle" title="切換音效">
+                <span id="soundIcon">🔊</span>
+                <span id="soundText">音效開</span>
+            </button>
+            <button class="btn-icon-pill" id="themeToggle" title="白天 / 星空模式切換">
+                <span id="themeIcon">☀️</span>
+                <span id="themeText">白天</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- 天空飄浮動態元素：太陽寶寶 & 白雲 -->
+    <div class="sky-elements">
+        <div class="cloud cloud-1"></div>
+        <div class="cloud cloud-2"></div>
+        <div class="cloud cloud-3"></div>
+        <div class="sun-baby" id="sunBaby" title="點擊太陽寶寶聽聽笑聲！">
+            <div class="sun-face">👶☀️</div>
+            <div class="sun-label">太陽寶寶</div>
+        </div>
+    </div>
+
+    <!-- 主視覺區 Hero Section -->
+    <header class="hero-section">
+        <div class="pill-badge">✨ 陪伴全球世代的經典巨作</div>
+        <h1 class="main-title" style="color: rgb(226, 101, 17); font-size: clamp(3.5rem, 8vw, 6rem);">Teletubbies</h1>
+        <div class="subtitle">
+            <span>天線寶寶世界</span>
+            <span>・</span>
+            <span class="highlight">說你好！Eh-oh!</span>
+        </div>
+
+        <div class="quick-tags">
+            <div class="tag-chip">🇬🇧 英國 BBC 經典</div>
+            <div class="tag-chip">🗣️ 原始語言：英文</div>
+            <div class="tag-chip">📺 首播：1997 年</div>
+            <div class="tag-chip">🌈 四大性格天線寶寶</div>
+        </div>
+
+        <div class="hero-buttons">
+            <button class="btn-primary" id="heroEhOhBtn">
+                <span>👋 點我打招呼「Eh-oh!」</span>
+            </button>
+            <a href="#characters" class="btn-secondary">
+                <span>🌟 認識六位人物</span>
+            </a>
+            <a href="#gallery" class="btn-secondary">
+                <span>📸 瀏覽精彩劇照</span>
+            </a>
+        </div>
+    </header>
+
+    <main>
+        <!-- 核心基本資料專區 (保留原網頁: 語言/國家/首播/人物速覽) -->
+        <section class="container" id="about">
+            <div class="section-header">
+                <span class="section-tag">BASIC INFORMATION</span>
+                <h2 class="section-title">節目基本資料</h2>
+                <p class="section-desc">從 1997 年在英國首播至今，天線寶寶用純真、童趣與獨特的草地世界征服了全球超過上億小朋友與成年人的心。</p>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-card"
+                    style="--accent-color: #3b82f6; --icon-bg: rgba(59, 130, 246, 0.12); --icon-color: #2563eb;">
+                    <div class="info-icon">🗣️</div>
+                    <div class="info-label">節目語言</div>
+                    <div class="info-value">英文 (English)</div>
+                    <div class="info-sub">原始英文發音，隨後被翻譯成全球超過 45 種不同語言播出。</div>
+                </div>
+
+                <div class="info-card"
+                    style="--accent-color: #ef4444; --icon-bg: rgba(239, 68, 68, 0.12); --icon-color: #dc2626;">
+                    <div class="info-icon">🇬🇧</div>
+                    <div class="info-label">出產國家</div>
+                    <div class="info-value">英國 (UK)</div>
+                    <div class="info-sub">由英國 Ragdoll 製作公司與 BBC 兒童頻道聯合傾力打造。</div>
+                </div>
+
+                <div class="info-card"
+                    style="--accent-color: #eab308; --icon-bg: rgba(234, 179, 8, 0.12); --icon-color: #ca8a04;">
+                    <div class="info-icon">📅</div>
+                    <div class="info-label">首播年份</div>
+                    <div class="info-value">1997 年</div>
+                    <div class="info-sub">1997年3月31日首次亮相，成為橫跨數十年的經典童年象徵。</div>
+                </div>
+
+                <div class="info-card"
+                    style="--accent-color: #10b981; --icon-bg: rgba(16, 185, 129, 0.12); --icon-color: #059669;">
+                    <div class="info-icon">👥</div>
+                    <div class="info-label">登場人物角色</div>
+                    <div class="info-value">6 大要角</div>
+                    <div class="info-sub">丁丁、迪西、拉拉、小波，以及可愛的努努與燦爛太陽寶寶！</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 人物角色全集 (原網頁: 丁丁、迪西、拉拉、小波、努努、太陽寶寶) -->
+        <section class="container character-section" id="characters">
+            <div class="section-header">
+                <span class="section-tag">CHARACTERS ROSTER</span>
+                <h2 class="section-title">經典角色大集合</h2>
+                <p class="section-desc">每位天線寶寶都有獨特代表色、天線造型與最愛的寶貝物品，點擊卡片聽聽看他們歡樂的聲音吧！</p>
+            </div>
+
+            <div class="characters-grid">
+                <!-- 丁丁 -->
+                <div class="char-card"
+                    style="--char-color: var(--tinky); --char-glow: var(--tinky-glow); --char-bg-light: #f3e8ff;">
+                    <span class="char-badge-header">大哥哥</span>
+                    <div class="antenna-symbol">▽</div>
+                    <h3 class="char-name">丁丁</h3>
+                    <div class="char-en-name">Tinky Winky</div>
+                    <div class="char-props">
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">身體顏色</span>
+                            <span class="char-prop-val">💜 紫色 (Purple)</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">頭頂天線</span>
+                            <span class="char-prop-val">倒三角形 ▽</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">最愛物品</span>
+                            <span class="char-prop-val">紅色神奇手袋 👜</span>
+                        </div>
+                    </div>
+                    <p class="char-desc">身材最高大、最溫和成熟的大哥哥，喜歡漫步在草地上，最珍惜隨身攜帶的亮紅色手袋！</p>
+                    <button class="char-btn" onclick="sayCharGreeting('丁丁', '💜 Tinky Winky!', 330)">
+                        <span>💜 聽丁丁打招呼</span>
+                    </button>
+                </div>
+
+                <!-- 迪西 -->
+                <div class="char-card"
+                    style="--char-color: var(--dipsy); --char-glow: var(--dipsy-glow); --char-bg-light: #d1fae5;">
+                    <span class="char-badge-header">最酷舞者</span>
+                    <div class="antenna-symbol">｜</div>
+                    <h3 class="char-name">迪西</h3>
+                    <div class="char-en-name">Dipsy</div>
+                    <div class="char-props">
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">身體顏色</span>
+                            <span class="char-prop-val">💚 綠色 (Green)</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">頭頂天線</span>
+                            <span class="char-prop-val">直立直線 ｜</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">最愛物品</span>
+                            <span class="char-prop-val">乳牛花紋高帽 🎩</span>
+                        </div>
+                    </div>
+                    <p class="char-desc">最有個性與節奏感的酷哥，皮膚較深，最愛戴著時尚黑白乳牛花紋帽子跳動感舞蹈！</p>
+                    <button class="char-btn" onclick="sayCharGreeting('迪西', '💚 Dipsy!', 440)">
+                        <span>💚 聽迪西打招呼</span>
+                    </button>
+                </div>
+
+                <!-- 拉拉 -->
+                <div class="char-card"
+                    style="--char-color: var(--laalaa); --char-glow: var(--laalaa-glow); --char-bg-light: #fef3c7;">
+                    <span class="char-badge-header">歡樂天使</span>
+                    <div class="antenna-symbol">∿</div>
+                    <h3 class="char-name">拉拉</h3>
+                    <div class="char-en-name">Laa-Laa</div>
+                    <div class="char-props">
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">身體顏色</span>
+                            <span class="char-prop-val">💛 黃色 (Yellow)</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">頭頂天線</span>
+                            <span class="char-prop-val">捲捲捲線 ∿</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">最愛物品</span>
+                            <span class="char-prop-val">橘色大彈力球 ⚽</span>
+                        </div>
+                    </div>
+                    <p class="char-desc">活潑開朗的歌唱精靈，最喜歡在翠綠草原上跳芭蕾舞、拍拍她那顆活力十足的橘色大球！</p>
+                    <button class="char-btn" onclick="sayCharGreeting('拉拉', '💛 Laa-Laa!', 554)">
+                        <span>💛 聽拉拉打招呼</span>
+                    </button>
+                </div>
+
+                <!-- 小波 -->
+                <div class="char-card"
+                    style="--char-color: var(--po); --char-glow: var(--po-glow); --char-bg-light: #fee2e2;">
+                    <span class="char-badge-header">可愛小萌新</span>
+                    <div class="antenna-symbol">◯</div>
+                    <h3 class="char-name">小波</h3>
+                    <div class="char-en-name">Po</div>
+                    <div class="char-props">
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">身體顏色</span>
+                            <span class="char-prop-val">❤️ 紅色 (Red)</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">頭頂天線</span>
+                            <span class="char-prop-val">圓圈天線 ◯</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">最愛物品</span>
+                            <span class="char-prop-val">粉紅小滑板車 🛴</span>
+                        </div>
+                    </div>
+                    <p class="char-desc">個子最嬌小可愛的萌忙內，最愛踩著小滑板車滿場飛奔，偶爾還會飆出親切的廣東話問候！</p>
+                    <button class="char-btn" onclick="sayCharGreeting('小波', '❤️ Po!', 659)">
+                        <span>❤️ 聽小波打招呼</span>
+                    </button>
+                </div>
+
+                <!-- 努努 -->
+                <div class="char-card"
+                    style="--char-color: var(--noonoo); --char-glow: rgba(6,182,212,0.3); --char-bg-light: #cffafe;">
+                    <span class="char-badge-header">辛勤管家</span>
+                    <div class="antenna-symbol">🤖</div>
+                    <h3 class="char-name">努努</h3>
+                    <div class="char-en-name">Noo-noo</div>
+                    <div class="char-props">
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">身份種類</span>
+                            <span class="char-prop-val">智能吸塵器機器人 🧹</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">專長技能</span>
+                            <span class="char-prop-val">吸乾淨所有碎屑！</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">個性特質</span>
+                            <span class="char-prop-val">勤快、偶爾很頑皮 😄</span>
+                        </div>
+                    </div>
+                    <p class="char-desc">天線寶寶圓頂小屋裡不可或缺的成員，只要看到寶寶們打翻吐司或果凍，就會呼嚕呼嚕幫忙收拾！</p>
+                    <button class="char-btn" onclick="sayCharGreeting('努努', '🤖 呼嚕呼嚕～Noo-noo!', 280)">
+                        <span>🤖 啟動努努吸塵聲</span>
+                    </button>
+                </div>
+
+                <!-- 太陽寶寶 -->
+                <div class="char-card"
+                    style="--char-color: var(--sunbaby); --char-glow: rgba(234,179,8,0.35); --char-bg-light: #fef9c3;">
+                    <span class="char-badge-header">光明守護</span>
+                    <div class="antenna-symbol">☀️</div>
+                    <h3 class="char-name">太陽寶寶</h3>
+                    <div class="char-en-name">Sun Baby</div>
+                    <div class="char-props">
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">所在位置</span>
+                            <span class="char-prop-val">天線寶寶島上空 🌤️</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">招牌動作</span>
+                            <span class="char-prop-val">咯咯清脆歡笑聲 👶</span>
+                        </div>
+                        <div class="char-prop-row">
+                            <span class="char-prop-key">象徵意義</span>
+                            <span class="char-prop-val">美好新的一天開始與結束</span>
+                        </div>
+                    </div>
+                    <p class="char-desc">金黃色燦爛太陽中那張純真燦爛的嬰兒笑臉，陪伴每個早晨與黃昏，是全球觀眾最暖心的回憶！</p>
+                    <button class="char-btn" onclick="sayCharGreeting('太陽寶寶', '☀️ 咯咯笑～Sun Baby!', 784)">
+                        <span>☀️ 聽太陽寶寶歡笑</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 精彩劇照圖輯專區 (原網頁: images.jpg 及 657a0874-5773-4926-85bc-bd3005714d46.jpg) -->
+        <section class="container gallery-section" id="gallery">
+            <div class="section-header">
+                <span class="section-tag">PHOTO GALLERY</span>
+                <h2 class="section-title">經典劇照圖輯展示</h2>
+                <p class="section-desc">點擊任一張照片即可放大欣賞高畫質大圖，重溫超自然青翠草原與天線寶寶的溫馨時光。</p>
+            </div>
+
+            <div class="gallery-grid">
+                <!-- 第一張照片: images.jpg -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrap" onclick="openLightbox('images/images.jpg', '天線寶寶綠色草原合影')">
+                        <span class="gallery-badge">📸 草原漫步合影</span>
+                        <img src="images/images.jpg" alt="天線寶寶草原大合照">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="gallery-title">美麗的神奇島草地</h3>
+                            <p class="gallery-caption">丁丁、迪西、拉拉與小波在陽光普照的微風草原上漫步，背景可以看到神奇風車與可愛的兔子洞。</p>
+                        </div>
+                        <div class="gallery-click-hint" onclick="openLightbox('images/images.jpg', '天線寶寶綠色草原合影')">
+                            <span>🔍 點擊查看高清大圖</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 第二張照片: 657a0874-5773-4926-85bc-bd3005714d46.jpg -->
+                <div class="gallery-card">
+                    <div class="gallery-img-wrap"
+                        onclick="openLightbox('images/657a0874-5773-4926-85bc-bd3005714d46.jpg', '天線寶寶彩色直條紋特寫')">
+                        <span class="gallery-badge">🌈 彩色專屬背景特寫</span>
+                        <img src="images/657a0874-5773-4926-85bc-bd3005714d46.jpg" alt="天線寶寶寶寶特寫照">
+                    </div>
+                    <div class="gallery-info">
+                        <div>
+                            <h3 class="gallery-title">歡樂繽紛四人組</h3>
+                            <p class="gallery-caption">展示四位天線寶寶活潑生動的表情特寫，背後襯托著代表四位角色的紫、綠、黃、紅四色條紋背景。</p>
+                        </div>
+                        <div class="gallery-click-hint"
+                            onclick="openLightbox('images/657a0874-5773-4926-85bc-bd3005714d46.jpg', '天線寶寶彩色直條紋特寫')">
+                            <span>🔍 點擊查看高清大圖</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 原網頁 HIHIHIHIHI 打招呼專區的精巧昇華 -->
+        <section class="container greetings-section" id="greetings">
+            <div class="greetings-box">
+                <span class="section-tag">SAY HELLO TO TELETUBBIES</span>
+                <h2 class="section-title">天線寶寶說：Eh-oh!</h2>
+                <p class="section-desc">「Eh-oh!」是天線寶寶最經典的問候語！點擊下方按鈕或泡泡，一起發送歡樂的打招呼祝福！</p>
+
+                <div class="greetings-bubble-stream" id="bubbleStream">
+                    <span class="hi-chip" style="background: #ede9fe; color: #7c3aed;"
+                        onclick="triggerHiParticle('丁丁：Eh-oh! 💜')">丁丁：Eh-oh! 💜</span>
+                    <span class="hi-chip" style="background: #d1fae5; color: #059669;"
+                        onclick="triggerHiParticle('迪西：你好呀！💚')">迪西：你好呀！💚</span>
+                    <span class="hi-chip" style="background: #fef3c7; color: #d97706;"
+                        onclick="triggerHiParticle('拉拉：唱首歌～💛')">拉拉：唱首歌～💛</span>
+                    <span class="hi-chip" style="background: #fee2e2; color: #dc2626;"
+                        onclick="triggerHiParticle('小波：HIHIHIHI! ❤️')">小波：HIHIHIHI! ❤️</span>
+                    <span class="hi-chip" style="background: #cffafe; color: #0891b2;"
+                        onclick="triggerHiParticle('努努：嘟嘟嘟！🤖')">努努：嘟嘟嘟！🤖</span>
+                    <span class="hi-chip" style="background: #fef08a; color: #ca8a04;"
+                        onclick="triggerHiParticle('太陽寶寶：咯咯笑☀️')">太陽寶寶：咯咯笑☀️</span>
+                    <span class="hi-chip" style="background: #ffedd5; color: #ea580c;"
+                        onclick="triggerHiParticle('抱抱！Big Hug! 🫂')">抱抱！Big Hug! 🫂</span>
+                </div>
+
+                <div style="display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; margin-top: 20px;">
+                    <button class="btn-primary" onclick="triggerHiParticle('🌈 HIHIHIHIHIHIHIHI!')">
+                        <span>🎈 發射問候氣泡</span>
+                    </button>
+                    <button class="btn-secondary" onclick="toggleRawText()">
+                        <span>📜 查看原始練習文字</span>
+                    </button>
+                </div>
+
+                <!-- 忠實保留使用者原本的 HIHIHIHI 連續字元內容 -->
+                <div class="raw-hi-original" id="rawOriginalBlock">
+                    <strong>【原始網頁打招呼記錄】</strong><br>
+                    HIHIHIHIHIHIHIHIHIHI<br>
+                    HIHIHIHIHIHIHIHIHIHIHIHI<br>
+                    HIHIHIHIHIHIHIHIHIHIHIHI<br>
+                    HIHIHIHIHIHIHIHIHIHIHIHI<br>
+                    HIHIHIHIHIHIHIHIHIHIHIHI
+                </div>
+            </div>
+        </section>
+
+        <!-- 官方連結專區 (原網頁中 Wikipedia 與 Teletubbies 官方網站) -->
+        <section class="container links-section" id="links">
+            <div class="section-header">
+                <span class="section-tag">OFFICIAL & EXTERNAL LINKS</span>
+                <h2 class="section-title">延伸探索官方資源</h2>
+                <p class="section-desc">點擊以下連結，前往官方網站與維基百科獲取更多關於天線寶寶的歷史、幕後製作與精彩世界。</p>
+            </div>
+
+            <div class="links-grid">
+                <!-- 維基百科連結 (保留原網頁 a 標籤目標) -->
+                <a href="https://zh.wikipedia.org/zh-tw/%E5%A4%A9%E7%B7%9A%E5%AF%B6%E5%AF%B6" target="_blank"
+                    rel="noopener noreferrer" class="link-card">
+                    <div class="link-card-icon" style="background: #f1f5f9; color: #0f172a;">
+                        📖
+                    </div>
+                    <div class="link-card-body">
+                        <h3>天線寶寶 - 維基百科 ↗</h3>
+                        <p>瀏覽繁體中文維基百科，深入了解節目創作背景、全球播出歷史、角色設定與文化影響力。</p>
+                    </div>
+                </a>
+
+                <!-- 官方網站連結 (保留原網頁 a 標籤目標) -->
+                <a href="https://www.teletubbies.com/" target="_blank" rel="noopener noreferrer" class="link-card">
+                    <div class="link-card-icon" style="background: #fef08a; color: #ea580c;">
+                        🌐
+                    </div>
+                    <div class="link-card-body">
+                        <h3>Teletubbies 官方網站 ↗</h3>
+                        <p>造訪官方全球首頁，探索最新兒童互動活動、音樂短片、角色周邊以及精彩多媒體內容。</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+    </main>
+
+    <!-- 底部草地曲線裝飾 -->
+    <svg class="hill-divider" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M0,32L60,42.7C120,53,240,75,360,80C480,85,600,75,720,58.7C840,43,960,21,1080,21.3C1200,21,1320,43,1380,53.3L1440,64L1440,120L1380,120C1320,120,1200,120,1080,120C960,120,840,120,720,120C600,120,480,120,360,120C240,120,120,120,60,120L0,120Z"
+            fill="var(--footer-bg)"></path>
+    </svg>
+
+    <!-- 頁尾 -->
+    <footer>
+        <div class="footer-logo">Teletubbies 天線寶寶</div>
+        <p class="footer-quote">「太陽下山了，天線寶寶要說再見囉！再見～再見～」</p>
+
+        <div class="footer-links">
+            <a href="#about">節目資料</a>
+            <a href="#characters">角色家族</a>
+            <a href="#gallery">劇照圖輯</a>
+            <a href="https://zh.wikipedia.org/zh-tw/%E5%A4%A9%E7%B7%9A%E5%AF%B6%E5%AF%B6" target="_blank">維基百科</a>
+            <a href="https://www.teletubbies.com/" target="_blank">官方網站</a>
+        </div>
+
+        <p class="footer-copy">
+            © 1997-2026 Teletubbies (天線寶寶) 專題頁面美化版 ｜ 保留所有文字與原始圖片連結 ｜ 網頁設計課堂練習成果
+        </p>
+    </footer>
+
+    <!-- 圖片燈箱 Lightbox -->
+    <div class="lightbox-modal" id="lightboxModal" onclick="closeLightbox()">
+        <button class="lightbox-close" onclick="closeLightbox()" title="關閉">×</button>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="放大照片" onclick="event.stopPropagation()">
+    </div>
+
+    <!-- 互動腳本：Web Audio API 音效合成、日夜切換、粒子漂浮與燈箱 -->
+    <script>
+        // 音效控制狀態
+        let soundEnabled = true;
+        let audioCtx = null;
+
+        function getAudioContext() {
+            if (!audioCtx) {
+                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                if (AudioContextClass) {
+                    audioCtx = new AudioContextClass();
+                }
+            }
+            if (audioCtx && audioCtx.state === 'suspended') {
+                audioCtx.resume();
+            }
+            return audioCtx;
+        }
+
+        // 播放可愛的卡通合聲音階
+        function playCuteChime(freq = 520, type = 'sine', duration = 0.25) {
+            if (!soundEnabled) return;
+            try {
+                const ctx = getAudioContext();
+                if (!ctx) return;
+
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+
+                osc.type = type;
+                osc.frequency.setValueAtTime(freq, ctx.currentTime);
+                // 向上滑音效果，營造活潑感
+                osc.frequency.exponentialRampToValueAtTime(freq * 1.35, ctx.currentTime + duration);
+
+                gain.gain.setValueAtTime(0.18, ctx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + duration);
+
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+
+                osc.start();
+                osc.stop(ctx.currentTime + duration);
+            } catch (e) {
+                console.log('Audio playback info:', e);
+            }
+        }
+
+        // 天線寶寶「Eh-oh!」二段式音調
+        function playEhOhSound() {
+            if (!soundEnabled) return;
+            playCuteChime(420, 'triangle', 0.18);
+            setTimeout(() => {
+                playCuteChime(630, 'sine', 0.28);
+            }, 140);
+        }
+
+        // 音效開關切換
+        const soundToggle = document.getElementById('soundToggle');
+        const soundIcon = document.getElementById('soundIcon');
+        const soundText = document.getElementById('soundText');
+
+        soundToggle.addEventListener('click', () => {
+            soundEnabled = !soundEnabled;
+            soundIcon.textContent = soundEnabled ? '🔊' : '🔇';
+            soundText.textContent = soundEnabled ? '音效開' : '靜音中';
+            if (soundEnabled) {
+                playCuteChime(600, 'sine', 0.15);
+            }
+        });
+
+        // 日夜模式切換 (白天 / 星空夜景)
+        const themeToggle = document.getElementById('themeToggle');
+        const themeIcon = document.getElementById('themeIcon');
+        const themeText = document.getElementById('themeText');
+        const htmlDoc = document.documentElement;
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = htmlDoc.getAttribute('data-theme');
+            const nextTheme = currentTheme === 'day' ? 'night' : 'day';
+            htmlDoc.setAttribute('data-theme', nextTheme);
+            themeIcon.textContent = nextTheme === 'day' ? '☀️' : '🌙';
+            themeText.textContent = nextTheme === 'day' ? '白天' : '星空';
+            playCuteChime(nextTheme === 'day' ? 700 : 350, 'triangle', 0.2);
+        });
+
+        // 角色卡片打招呼觸發
+        function sayCharGreeting(name, message, freq) {
+            playCuteChime(freq, 'sine', 0.35);
+            triggerHiParticle(message);
+        }
+
+        // 太陽寶寶點擊互動
+        document.getElementById('sunBaby').addEventListener('click', (e) => {
+            playEhOhSound();
+            triggerHiParticle('☀️ 太陽寶寶笑囉！嘻嘻～', e.clientX, e.clientY);
+        });
+
+        // 主畫面 Eh-Oh 按鈕
+        document.getElementById('heroEhOhBtn').addEventListener('click', (e) => {
+            playEhOhSound();
+            const greetings = ['🌈 Eh-oh! 你好！', '💜 丁丁來抱抱！', '💚 迪西跳舞囉！', '💛 拉拉拍大球！', '❤️ 小波飛馳中！'];
+            const randomMsg = greetings[Math.floor(Math.random() * greetings.length)];
+            triggerHiParticle(randomMsg, e.clientX, e.clientY);
+        });
+
+        // 浮動粒子效果
+        function triggerHiParticle(text, x, y) {
+            const particle = document.createElement('div');
+            particle.className = 'floating-particle';
+            particle.textContent = text;
+
+            const posX = x !== undefined ? x : (window.innerWidth / 2 + (Math.random() * 160 - 80));
+            const posY = y !== undefined ? y : (window.innerHeight / 2 + 100);
+
+            particle.style.left = posX + 'px';
+            particle.style.top = posY + 'px';
+
+            const randomTx = (Math.random() * 120 - 60) + 'px';
+            const randomRot = (Math.random() * 40 - 20) + 'deg';
+            particle.style.setProperty('--tx', randomTx);
+            particle.style.setProperty('--rot', randomRot);
+
+            document.body.appendChild(particle);
+
+            setTimeout(() => {
+                particle.remove();
+            }, 1800);
+        }
+
+        // 原始練習文字區塊開關
+        function toggleRawText() {
+            const rawBlock = document.getElementById('rawOriginalBlock');
+            if (rawBlock.style.display === 'block') {
+                rawBlock.style.display = 'none';
+            } else {
+                rawBlock.style.display = 'block';
+                playCuteChime(450, 'sine', 0.15);
+            }
+        }
+
+        // 圖片燈箱 Lightbox 功能
+        function openLightbox(src, alt) {
+            const modal = document.getElementById('lightboxModal');
+            const img = document.getElementById('lightboxImg');
+            img.src = src;
+            img.alt = alt;
+            modal.classList.add('active');
+            playCuteChime(580, 'sine', 0.12);
+        }
+
+        function closeLightbox() {
+            const modal = document.getElementById('lightboxModal');
+            modal.classList.remove('active');
+        }
+
+        // 支援 ESC 鍵關閉燈箱
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeLightbox();
+            }
+        });
+    </script>
+</body>
+
+</html>
